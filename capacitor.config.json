@@ -1,0 +1,8 @@
+{
+  "appId": "com.healix.health",
+  "appName": "Healix",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https"
+  }
+}

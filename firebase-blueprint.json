@@ -1,0 +1,44 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "User Profile",
+      "description": "User personal details and physical vitals",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "username": { "type": "string", "maxLength": 100 },
+        "email": { "type": "string", "format": "email", "maxLength": 100 },
+        "age": { "type": "string", "maxLength": 3 },
+        "gender": { "type": "string", "maxLength": 20 },
+        "weight": { "type": "string", "maxLength": 5 },
+        "height": { "type": "string", "maxLength": 5 },
+        "blood": { "type": "string", "maxLength": 10 }
+      },
+      "required": ["uid", "username", "email"]
+    },
+    "Medicine": {
+      "title": "Medicine Schedule Item",
+      "description": "Medication prescription record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "name": { "type": "string", "maxLength": 120 },
+        "dosage": { "type": "string", "maxLength": 60 },
+        "frequency": { "type": "string", "maxLength": 50 },
+        "taken": { "type": "boolean" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "name", "dosage", "frequency", "taken"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "User profile document indexed by Firebase Auth UID"
+    },
+    "/users/{userId}/medicines/{medicineId}": {
+      "schema": { "$ref": "#/entities/Medicine" },
+      "description": "User medication list subcollection"
+    }
+  }
+}
