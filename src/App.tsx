@@ -9,6 +9,7 @@ import { SymptomChecker } from './components/SymptomChecker';
 import { PharmacyFinder } from './components/PharmacyFinder';
 import { ApiHealth } from './components/ApiHealth';
 import { WelcomeAuth } from './components/WelcomeAuth';
+import { NotificationProvider } from './context/NotificationContext';
 
 export function App() {
   const [user, setUser] = useState<UserProfile | null>(() => storage.getUser());
@@ -62,36 +63,39 @@ export function App() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans flex flex-col antialiased">
-      {/* Navbar with Mobile Bottom Bar Support */}
-      <Navbar
-        user={user}
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
-        onLogout={handleLogout}
-      />
+    <NotificationProvider>
+      <div className="min-h-screen bg-slate-50 text-slate-900 font-sans flex flex-col antialiased">
+        {/* Navbar with Mobile Bottom Bar Support */}
+        <Navbar
+          user={user}
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          onLogout={handleLogout}
+        />
 
-      {/* Main Content Area */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-20 md:pb-12">
-        {activeTab === 'dashboard' && (
-          <ProfileDashboard user={user} setActiveTab={setActiveTab} />
-        )}
+        {/* Main Content Area */}
+        <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-20 md:pb-12">
+          {activeTab === 'dashboard' && (
+            <ProfileDashboard user={user} setActiveTab={setActiveTab} />
+          )}
 
-        {activeTab === 'medicines' && <MedicineTracker />}
+          {activeTab === 'medicines' && <MedicineTracker />}
 
-        {activeTab === 'symptoms' && (
-          <SymptomChecker
-            onNavigatePharmacies={() => setActiveTab('pharmacies')}
-            onNavigateMedicines={() => setActiveTab('medicines')}
-          />
-        )}
+          {activeTab === 'symptoms' && (
+            <SymptomChecker
+              onNavigatePharmacies={() => setActiveTab('pharmacies')}
+              onNavigateMedicines={() => setActiveTab('medicines')}
+            />
+          )}
 
-        {activeTab === 'pharmacies' && <PharmacyFinder />}
+          {activeTab === 'pharmacies' && <PharmacyFinder />}
 
-        {activeTab === 'health' && <ApiHealth />}
-      </main>
-    </div>
+          {activeTab === 'health' && <ApiHealth />}
+        </main>
+      </div>
+    </NotificationProvider>
   );
 }
 
 export default App;
+
